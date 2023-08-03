@@ -1,11 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link';
 
+const linkStyleClassName="border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950 ";
+
 export default function Home() {
   return (
     <>
-      <ul className="m-4">
-        <Link className="border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950" href="/algorithms">{`Dijktra's Algorithm`}</Link>
+      <ul className="m-4 list-none flex flex-col gap-2 w-56">
+        <Link href="/algorithms/dijkstras"className={`${linkStyleClassName}`}>{`Dijktra's Algorithm`}</Link>
+        <Link href="/algorithms/ratInMaze"className={`${linkStyleClassName}`}>{`Rat in Maze`}</Link>
+        <Link href="/algorithms/nQueen"className={`${linkStyleClassName}`}>{`N Queens`}</Link>
       </ul>    
     </>
   )

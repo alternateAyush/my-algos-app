@@ -1,7 +1,7 @@
 'use client'
 import { useState,useEffect } from "react";
-import Node from "../../components/Node"
-import { dijkstra } from "@/logic/dijkstra";
+import Node from "../../../components/Node";
+import { ratInMaze } from "@/logic/rantInMaze";
 
 type gridNode={
     row:number,
@@ -14,27 +14,24 @@ type gridNode={
     previousNode:gridNode|null,
 }
 
-const START_NODE_ROW=10;
-const START_NODE_COL=15;
-const FINISH_NODE_ROW=10;
-const FINISH_NODE_COL=35;
-const temp:gridNode[][]=[];
+const START_NODE_ROW=0;
+const START_NODE_COL=0;
+const FINISH_NODE_ROW=7;
+const FINISH_NODE_COL=7;
+const emptyGrid:gridNode[][]=[];
 
 export default function  PathFinder()
 { 
-    const [grid,setGrid] = useState(temp);
+    const [grid,setGrid] = useState(emptyGrid);
     const [loader, setLoader] = useState(true);
     const [mouseIsPressed,setMouseIsPressed] = useState(false);
     useEffect(()=>{
             const ggrid:gridNode[][]=getInitialGrid();
-            console.log(ggrid.length);
             setGrid(ggrid);
             setLoader(false);
     },[])
-    function createAGrid()
+    function resetGrid()
     {
-        
-        console.log(grid.length);
     }
     function handleMouseDown(row:number,col:number)
     {
@@ -45,7 +42,7 @@ export default function  PathFinder()
     function handleMouseEnter(row:number,col:number){
         if(!mouseIsPressed) return;
         const newGrid:gridNode[][]=getNewGridWithWallToggled(grid,row,col);
-        setGrid(grid);
+        setGrid(newGrid);
     }
     function handleMouseUp()
     {
@@ -53,22 +50,30 @@ export default function  PathFinder()
     }
     function animateDijkstra(visitedNodesInOrder:gridNode[],nodesInShortestPathOrder:gridNode[])
     {
+        console.log(visitedNodesInOrder.length);
         for(let i=0; i<=visitedNodesInOrder.length; i++)
         {
             if(i===visitedNodesInOrder.length)
             {
                 setTimeout(()=>{
                     animateShortestPath(nodesInShortestPathOrder);
-                },10*i);
+                },25*i);
                 return;
             }
             setTimeout(()=>{
                 const node:gridNode=visitedNodesInOrder[i];
                 const visitedNode=document.getElementById(`node-${node.row}-${node.col}`);
                 if(visitedNode){
-                    visitedNode.className=`node node-visited`;
+                    if(visitedNode.className==="node node-visited w-12 h-12")
+                    {
+                        visitedNode.className="node w-12 h-12";
+                    }
+                    else
+                    {
+                        visitedNode.className="node node-visited w-12 h-12";
+                    }                    
                 }
-            },10*i)
+            },20*i)
         }
     }
     function animateShortestPath(nodesInShortestPathOrder:gridNode[]){
@@ -79,16 +84,16 @@ export default function  PathFinder()
                 const shortestPathNode=document.getElementById(`node-${node.row}-${node.col}`);
                 if(shortestPathNode)
                 {
-                    shortestPathNode.className=`node node-shortest-path`;
+                    shortestPathNode.className=`node node-shortest-path w-12 h-12`;
                 }
-            },50*i);
+            },50*(i%200));
         }
     }
-    function visualizeDijkstra(){
+    function visualizeRatInMaze(){
         const ggrid:gridNode[][]=grid;
         const startNode=ggrid[START_NODE_ROW][START_NODE_COL];
         const finishNode=ggrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-        const visitedNodesInOrder:gridNode[]=dijkstra(grid,startNode,finishNode);
+        const visitedNodesInOrder:gridNode[]=ratInMaze(grid,START_NODE_ROW,START_NODE_COL,FINISH_NODE_ROW+1,FINISH_NODE_COL+1);
         const nodesInShortestPathOrder=getNodesInShortestPathOrder(finishNode);
         animateDijkstra(visitedNodesInOrder,nodesInShortestPathOrder);
 
@@ -98,21 +103,22 @@ export default function  PathFinder()
         return <><h1>Loading...</h1></>
     }
     return <>
-    <button onClick={()=>visualizeDijkstra()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`Visualize Dijkstra's Algorithm`}</button>
+    <button onClick={()=>visualizeRatInMaze()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`N Queen`}</button>
+    <button onClick={()=>resetGrid()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`Reset`}</button>
     <div className="mx-40">
         {grid.map((row,rowIdx)=>{
             return (<div key={rowIdx} className="flex w-auto h-auto">
                 {row.map((node,nodeIdx)=>{
                     const {row,col,isFinish,isStart,isWall}=node;
                     return (
-                        <Node 
+                        <Node
+                        size={"12"} 
                         key={nodeIdx} 
                         row={row} 
                         col={col}
                         isFinish={isFinish}
                         isStart={isStart}
                         isWall={isWall}
-                        mouseIsPressed={mouseIsPressed}
                         onMouseDown={(row,col)=>handleMouseDown(row,col)}
                         onMouseEnter={(row,col)=>handleMouseEnter(row,col)}
                         onMouseUp={()=>handleMouseUp()}
@@ -127,10 +133,10 @@ export default function  PathFinder()
 
 function getInitialGrid(){
     const ggrid:gridNode[][]=[];
-    for(let row=0; row<20; row++)
+    for(let row=0; row<FINISH_NODE_ROW+1; row++)
     {
         const currRow:gridNode[]=[];
-        for(let col=0; col<50; col++)
+        for(let col=0; col<FINISH_NODE_COL+1; col++)
         {
             currRow.push(createNode(row,col));
             // console.log(row,col);
