@@ -20,7 +20,7 @@ const START_NODE_COL=15;
 const FINISH_NODE_ROW=10;
 const FINISH_NODE_COL=35;
 const emptyGrid:gridNode[][]=[];
-const buttonStyle="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950";
+const BUTTON_STYLE="m-1 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950";
 
 export default function  PathFinder()
 { 
@@ -124,9 +124,9 @@ export default function  PathFinder()
         return <><h1>Loading...</h1></>
     }
     return <>
-    <Link href="/" className={`${buttonStyle}`}>{`Home`}</Link>
-    <button onClick={()=>visualizeDijkstra()} className={`${buttonStyle}`}>{`Visualize Dijkstra's Algorithm`}</button>
-    <button onClick={()=>resetGrid()} className={`${buttonStyle}`}>{`Reset Grid`}</button>
+    <Link href="/" className={`${BUTTON_STYLE}`}>{`Home`}</Link>
+    <button onClick={()=>visualizeDijkstra()} className={`${BUTTON_STYLE}`}>{`Visualize Dijkstra's Algorithm`}</button>
+    <button onClick={()=>resetGrid()} className={`${BUTTON_STYLE}`}>{`Reset Grid`}</button>
     <div className="ml-10">
         {grid.map((row,rowIdx)=>{
             return (<div key={rowIdx} className="flex w-auto h-auto">
