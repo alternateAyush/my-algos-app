@@ -83,10 +83,10 @@ export default function  PathFinder()
     }
     function visualizeDijkstra(){
         const ggrid:gridNode[][]=grid;
-        const startNode=ggrid[START_NODE_ROW][START_NODE_COL];
-        const finishNode=ggrid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        const startNode:gridNode=ggrid[START_NODE_ROW][START_NODE_COL];
+        const finishNode:gridNode=ggrid[FINISH_NODE_ROW][FINISH_NODE_COL];
         const visitedNodesInOrder:gridNode[]=dijkstra(grid,startNode,finishNode);
-        const nodesInShortestPathOrder=getNodesInShortestPathOrder(finishNode);
+        const nodesInShortestPathOrder:gridNode[]=getNodesInShortestPathOrder(finishNode);
         animateDijkstra(visitedNodesInOrder,nodesInShortestPathOrder);
 
     }
@@ -152,7 +152,7 @@ const createNode=(row:number,col:number)=>{
     return tempp;
 }
 
-const getNewGridWithWallToggled=(grid:gridNode[][],row:number,col:number)=>{
+function getNewGridWithWallToggled(grid:gridNode[][],row:number,col:number){
     const newGrid:gridNode[][]=grid.slice();
     const node:gridNode=newGrid[row][col];
     const newNode:gridNode={
@@ -164,13 +164,20 @@ const getNewGridWithWallToggled=(grid:gridNode[][],row:number,col:number)=>{
 }
 
 
-export function getNodesInShortestPathOrder(finishNode:gridNode){
+function getNodesInShortestPathOrder(finishNode:gridNode){
     const nodesInShortestPathOrder:gridNode[]=[];
-    let currentNode:gridNode|null=finishNode;
+    let currentNode:gridNode=finishNode;
     while(currentNode!==null)
     {
         nodesInShortestPathOrder.unshift(currentNode);
-        currentNode=currentNode.previousNode;
+        if(currentNode.previousNode)
+        {
+            currentNode=currentNode.previousNode;
+        }
+        else
+        {
+            break;
+        }
     }
     return nodesInShortestPathOrder;
 }

@@ -62,16 +62,16 @@ export default function  PathFinder()
             }
             setTimeout(()=>{
                 const node:gridNode=visitedNodesInOrder[i];
-                const visitedNode=document.getElementById(`node-${node.row}-${node.col}`);
+                const visitedNode=document.getElementById(`node-${node?.row}-${node?.col}`);
                 if(visitedNode){
                     if(visitedNode.className==="node node-visited w-12 h-12 once-visited")
                     {
-                        console.log("backtrack",node.row,node.col);
+                        console.log("backtrack",node?.row,node?.col);
                         visitedNode.className="node node-revisited w-12 h-12 once-visited";
                     }
                     else
                     {
-                        console.log("track",node.row,node.col);
+                        console.log("track",node?.row,node.col);
                         visitedNode.className="node node-visited w-12 h-12 once-visited";
                     }  
                 }
@@ -93,10 +93,10 @@ export default function  PathFinder()
     }
     function visualizeRatInMaze(){
         const ggrid:gridNode[][]=grid;
-        const startNode=ggrid[START_NODE_ROW][START_NODE_COL];
-        const finishNode=ggrid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        const startNode:gridNode=ggrid[START_NODE_ROW][START_NODE_COL];
+        const finishNode:gridNode=ggrid[FINISH_NODE_ROW][FINISH_NODE_COL];
         const visitedNodesInOrder:gridNode[]=ratInMaze(grid,START_NODE_ROW,START_NODE_COL,FINISH_NODE_ROW+1,FINISH_NODE_COL+1);
-        const nodesInShortestPathOrder=getNodesInShortestPathOrder(finishNode);
+        const nodesInShortestPathOrder:gridNode[]=getNodesInShortestPathOrder(finishNode);
         animateDijkstra(visitedNodesInOrder,nodesInShortestPathOrder);
 
     }
@@ -173,13 +173,20 @@ const getNewGridWithWallToggled=(grid:gridNode[][],row:number,col:number)=>{
     return newGrid;
 }
 
-export function getNodesInShortestPathOrder(finishNode:gridNode){
+function getNodesInShortestPathOrder(finishNode:gridNode){
     const nodesInShortestPathOrder:gridNode[]=[];
-    let currentNode:gridNode|null=finishNode;
+    let currentNode:gridNode=finishNode;
     while(currentNode!==null)
     {
         nodesInShortestPathOrder.unshift(currentNode);
-        currentNode=currentNode.previousNode;
+        if(currentNode.previousNode)
+        {
+            currentNode=currentNode.previousNode;
+        }
+        else
+        {
+            break;
+        }
     }
     return nodesInShortestPathOrder;
 }

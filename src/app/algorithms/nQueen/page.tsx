@@ -171,7 +171,7 @@ const getNewGridWithWallToggled=(grid:gridNode[][],row:number,col:number)=>{
     return newGrid;
 }
 
-export function getNodesInShortestPathOrder(finishNode:gridNode){
+function getNodesInShortestPathOrder(finishNode:gridNode){
     const nodesInShortestPathOrder:gridNode[]=[];
     let currentNode:gridNode|null=finishNode;
     while(currentNode!==null)
