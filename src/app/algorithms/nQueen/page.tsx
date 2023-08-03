@@ -2,6 +2,7 @@
 import { useState,useEffect } from "react";
 import Node from "../../../components/Node";
 import { ratInMaze } from "@/logic/rantInMaze";
+import Link from "next/link";
 
 type gridNode={
     row:number,
@@ -19,6 +20,8 @@ const START_NODE_COL=0;
 const FINISH_NODE_ROW=7;
 const FINISH_NODE_COL=7;
 const emptyGrid:gridNode[][]=[];
+const buttonStyle="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950";
+
 
 export default function  PathFinder()
 { 
@@ -103,8 +106,9 @@ export default function  PathFinder()
         return <><h1>Loading...</h1></>
     }
     return <>
-    <button onClick={()=>visualizeRatInMaze()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`N Queen`}</button>
-    <button onClick={()=>resetGrid()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`Reset`}</button>
+    <Link href="/" className={`${buttonStyle}`}>{`Home`}</Link>
+    <button onClick={()=>visualizeRatInMaze()} className={`${buttonStyle}`}>{`N Queen`}</button>
+    <button onClick={()=>resetGrid()} className={`${buttonStyle}`}>{`Reset`}</button>
     <div className="mx-40">
         {grid.map((row,rowIdx)=>{
             return (<div key={rowIdx} className="flex w-auto h-auto">

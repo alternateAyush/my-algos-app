@@ -2,6 +2,7 @@
 import { useState,useEffect } from "react";
 import Node from "../../../components/Node"
 import { dijkstra } from "@/logic/dijkstra";
+import Link from "next/link";
 
 type gridNode={
     row:number,
@@ -19,6 +20,7 @@ const START_NODE_COL=15;
 const FINISH_NODE_ROW=10;
 const FINISH_NODE_COL=35;
 const emptyGrid:gridNode[][]=[];
+const buttonStyle="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950";
 
 export default function  PathFinder()
 { 
@@ -32,6 +34,33 @@ export default function  PathFinder()
     },[])
     function resetGrid()
     {
+        setGrid(emptyGrid);  
+        const ggrid:gridNode[][]=getInitialGrid();
+        setGrid(ggrid);  
+        setMouseIsPressed(false);
+        for(const row of grid)
+        {
+            for(const node of row)
+            {
+                const tempNode=document.getElementById(`node-${node.row}-${node.col}`);
+                if(tempNode)
+                {
+                    tempNode.className="node w-6 h-6";
+                }
+            }
+        }
+        var node=ggrid[START_NODE_ROW][START_NODE_COL];
+        var tempNode=document.getElementById(`node-${node.row}-${node.col}`);
+        if(tempNode)
+        {
+            tempNode.className="node node-start w-6 h-6";
+        }
+        node=ggrid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        tempNode=document.getElementById(`node-${node.row}-${node.col}`);
+        if(tempNode)
+        {
+            tempNode.className="node node-finish w-6 h-6";
+        }
     }
     function handleMouseDown(row:number,col:number)
     {
@@ -95,8 +124,9 @@ export default function  PathFinder()
         return <><h1>Loading...</h1></>
     }
     return <>
-    <button onClick={()=>visualizeDijkstra()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`Visualize Dijkstra's Algorithm`}</button>
-    <button onClick={()=>resetGrid()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`Reset Grid`}</button>
+    <Link href="/" className={`${buttonStyle}`}>{`Home`}</Link>
+    <button onClick={()=>visualizeDijkstra()} className={`${buttonStyle}`}>{`Visualize Dijkstra's Algorithm`}</button>
+    <button onClick={()=>resetGrid()} className={`${buttonStyle}`}>{`Reset Grid`}</button>
     <div className="ml-10">
         {grid.map((row,rowIdx)=>{
             return (<div key={rowIdx} className="flex w-auto h-auto">

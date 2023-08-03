@@ -2,6 +2,7 @@
 import { useState,useEffect } from "react";
 import Node from "../../../components/Node";
 import { ratInMaze } from "@/logic/rantInMaze";
+import Link from "next/link";
 
 type gridNode={
     row:number,
@@ -19,6 +20,8 @@ const START_NODE_COL=0;
 const FINISH_NODE_ROW=5;
 const FINISH_NODE_COL=5;
 const emptyGrid:gridNode[][]=[];
+const buttonStyle="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950";
+
 
 export default function  PathFinder()
 { 
@@ -32,6 +35,33 @@ export default function  PathFinder()
     },[])
     function resetGrid()
     {
+        setGrid(emptyGrid);  
+        const ggrid:gridNode[][]=getInitialGrid();
+        setGrid(ggrid);  
+        setMouseIsPressed(false);
+        for(const row of grid)
+        {
+            for(const node of row)
+            {
+                const tempNode=document.getElementById(`node-${node.row}-${node.col}`);
+                if(tempNode)
+                {
+                    tempNode.className="node w-12 h-12";
+                }
+            }
+        }
+        var node=ggrid[START_NODE_ROW][START_NODE_COL];
+        var tempNode=document.getElementById(`node-${node.row}-${node.col}`);
+        if(tempNode)
+        {
+            tempNode.className="node node-start w-12 h-12";
+        }
+        node=ggrid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        tempNode=document.getElementById(`node-${node.row}-${node.col}`);
+        if(tempNode)
+        {
+            tempNode.className="node node-finish w-12 h-12";
+        }
     }
     function handleMouseDown(row:number,col:number)
     {
@@ -105,8 +135,9 @@ export default function  PathFinder()
         return <><h1>Loading...</h1></>
     }
     return <>
-    <button onClick={()=>visualizeRatInMaze()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`Visualize Rat In Maze`}</button>
-    <button onClick={()=>resetGrid()} className="m-4 border border-slate-950 hover:border-slate-400 hover:text-slate-400 p-2 rounded text-slate-950">{`Reset`}</button>
+    <Link href="/" className={`${buttonStyle}`}>{`Home`}</Link>
+    <button onClick={()=>visualizeRatInMaze()} className={`${buttonStyle}`}>{`Visualize Rat In Maze`}</button>
+    <button onClick={()=>resetGrid()} className={`${buttonStyle}`}>{`Reset`}</button>
     <div className="mx-40">
         {grid.map((row,rowIdx)=>{
             return (<div key={rowIdx} className="flex w-auto h-auto">
