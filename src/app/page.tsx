@@ -15,6 +15,7 @@ export default function Home() {
         <Link href="/algorithms/ratInMaze"className={`${linkStyleClassName}`}>{`Rat in Maze`}</Link>
         <Link href="/algorithms/nQueen"className={`${linkStyleClassName}`}>{`N Queens`}</Link>
         <Link href="/algorithms/sorting"className={`${linkStyleClassName}`}>{`Sorting Algorithms`}</Link>
+        <Link href="/algorithms/binarySearch"className={`${linkStyleClassName}`}>{`Binary Search`}</Link>
         <Link href="/"className={`${linkStyleClassName}`}>{`More Coming Soon...`}</Link>
       </ul>    
     </>
