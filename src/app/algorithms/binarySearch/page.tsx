@@ -65,9 +65,9 @@ export default function BinarySearchVisualizer(){
             if(i%2===0)
             {                
                 setTimeout(()=>{
-                    arrayBars[lowIdx].className = "array-bar inline-block my-0 mx-px node-visited"
-                    arrayBars[midIdx].className = "array-bar inline-block my-0 mx-px node-visited"
-                    arrayBars[highIdx].className = "array-bar inline-block my-0 mx-px node-visited"
+                    arrayBars[lowIdx].className = "array-bar inline-block my-0 mx-px bar-visited"
+                    arrayBars[midIdx].className = "array-bar inline-block my-0 mx-px bar-visited"
+                    arrayBars[highIdx].className = "array-bar inline-block my-0 mx-px bar-visited"
                     lowStyle.backgroundColor='black';
                     highStyle.backgroundColor='black';
                     midStyle.backgroundColor='green';
@@ -83,9 +83,9 @@ export default function BinarySearchVisualizer(){
             else
             {
                 setTimeout(()=>{
-                    arrayBars[lowIdx].className = "array-bar inline-block my-0 mx-px node-unvisited"
-                    arrayBars[midIdx].className = "array-bar inline-block my-0 mx-px node-unvisited"
-                    arrayBars[highIdx].className = "array-bar inline-block my-0 mx-px node-unvisited"
+                    arrayBars[lowIdx].className = "array-bar inline-block my-0 mx-px bar-unvisited"
+                    arrayBars[midIdx].className = "array-bar inline-block my-0 mx-px bar-unvisited"
+                    arrayBars[highIdx].className = "array-bar inline-block my-0 mx-px bar-unvisited"
                     lowStyle.backgroundColor=(array[lowIdx]===target)? 'red':primaryColor;
                     highStyle.backgroundColor=(array[highIdx]===target)? 'red':primaryColor;                  
                     midStyle.backgroundColor=primaryColor;
